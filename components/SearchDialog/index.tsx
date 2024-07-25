@@ -77,17 +77,17 @@ function SearchDialog({open=false}:DialogParams) {
 
 			<dialog 
 				ref={dialogRef}
-				className="absolute w-[40em] top-32 bg-grey-dark  p-6 rounded-2xl my-16 text-chalk text-xl overflow-hidden animate-modal shadow-lg transition-all delay-150 ease-in-out z-10"
+				className="absolute w-[40em] top-32 bg-grey-dark  p-6 rounded-2xl my-16 text-chalk text-xl overflow-hidden animate-modal shadow-lg transition-all delay-150 ease-in-out z-10 h-max"
 				open={open||isOpen}
 			>
 
-				<GlobalSearch/>
+				<GlobalSearch isOpen={isOpen}/>
 
 				<section className="flex gap-4  transition-all delay-200 ease-in-out ">
 					
 					<section className="w-[50%] min-w-[24rem] flex flex-col gap-2 transition-all delay-150 ease-in-out relative z-10">
 						<PrimaryButton
-							icon="https://devfolio.co/builder.svg"
+							icon="/member.svg"
 							name="Members"
 							state={state}
 							action={()=>{
@@ -103,7 +103,7 @@ function SearchDialog({open=false}:DialogParams) {
 						/>
 
 						<PrimaryButton
-							icon="https://devfolio.co/hackathon.svg"
+							icon="/org.svg"
 							name="Companies"
 							state={state}
 							action={()=>{
@@ -118,7 +118,7 @@ function SearchDialog({open=false}:DialogParams) {
 						/>
 
 						<PrimaryButton
-							icon="https://devfolio.co/hackathon.svg"
+							icon="/option.svg"
 							name="Fetch Options"
 							state={state}
 							action={()=>{
@@ -132,25 +132,8 @@ function SearchDialog({open=false}:DialogParams) {
 							}}
 						/>
 
-						{state.primary_filter&&
-						<section className="flex items-center gap-3 text-[1.1rem] bg-grey-dark px-4 p-3 rounded-lg w-full border-2 border-grey-light shadow-md relative">
-							<Image
-								className="rounded-full bg-charcoal w-[3rem] h-[3rem] p-3"
-								fetchPriority="high"
-								src="/bulb.svg"
-								width={22} height={22}
-								alt="suggestion"
-							/>
-							<p className="w-[85%]">
-								Apply as many filters from the left as you want then click on Show.
-							</p>
-						</section>}
-
-
 					</section>
-
-
-					
+			
 					{
 						state.primary_filter?
 						<fieldset className="w-[50%] flex flex-col gap-2 transition-all delay-150 ease-in-out relative z-10">
@@ -190,7 +173,7 @@ function SearchDialog({open=false}:DialogParams) {
 					
 				</section>
 
-				<ActionBar/>
+				{state.primary_filter&&<ActionBar/>}
 				
 			</dialog>
 

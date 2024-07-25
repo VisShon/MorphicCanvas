@@ -26,7 +26,7 @@ function PrimaryButton({action,icon,name,state}:PrimaryButtonParams) {
 
 	return (
 		<button 
-			className={` ${ButtonVariants[isSelected?"select":"deselect"]} p-4 h-[4rem] flex justify-between items-center rounded-lg w-full font-medium border-2 hover:border-blue-main  transition-all ease-in-out delay-50 text-[1.1rem]`}
+			className={` ${ButtonVariants[isSelected?"select":"deselect"]} p-4 h-[25%] flex justify-between items-center rounded-lg w-full font-medium border-2 hover:border-blue-main  transition-all ease-in-out delay-50 text-[1.1rem]`}
 			onClick={action}
 		>
 
@@ -45,7 +45,7 @@ function PrimaryButton({action,icon,name,state}:PrimaryButtonParams) {
 
 			<section className="flex w-[20%] justify-end">
 				{
-					!isSelected&&state.filterset.size>0&&
+					!isSelected&&state.filterset.size>0&&state.filterset.get(namekey)&&
 					<p className="rounded-full bg-blue-light w-max-content px-4 ">
 						{
 							Array.isArray(state.filterset.get(namekey))?

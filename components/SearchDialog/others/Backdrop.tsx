@@ -30,13 +30,6 @@ function Backdrop() {
 				width={100} height={100}
 			/>
 
-			<Image
-				className="z-10 absolute bottom-0 right-0 transition delay-200 ease-in-out"
-				src="/command-search-type.svg"
-				fetchPriority="high"
-				alt="command-search-bg"
-				width={200} height={40}	
-			/>
 		</>
 	)
 };
