@@ -7,7 +7,7 @@ import "nprogress/nprogress.css";
 
 import Router from "next/router";
 
-// import { FilterProvider } from "@/context/FilterContext";
+import { FilterProvider } from "@/context/FilterContext";
 
 import type { AppProps } from "next/app";
 import { Nunito_Sans } from "next/font/google";
@@ -46,11 +46,11 @@ export default function App({ Component, pageProps }: AppProps) {
 	},[Router])
 
 	return(
-		// <FilterProvider>
+		<FilterProvider>
 			<main className={ nunito.variable + " " + space.variable}>
 				<Component  {...pageProps} />
 			</main>
-		// </FilterProvider>
+		</FilterProvider>
 	);
 	
 };

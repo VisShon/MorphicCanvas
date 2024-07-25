@@ -18,6 +18,8 @@
 body {
   background: var(--background);
   font: var(--font-nunito-sans);
+  background-image: radial-gradient(circle at 2px 2px, #c1cbcc 1.5px, transparent 0);
+  background-size: 25px 25px;
 }
 
 @layer utilities {
