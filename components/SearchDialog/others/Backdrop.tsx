@@ -23,7 +23,7 @@ function Backdrop() {
 
 		
 			<Image
-				className="absolute bottom-0 right-0 h-[100%] w-[100%] object-cover z-0 transition delay-200 ease-in-out"
+				className="absolute bottom-0 right-0 h-[100%] w-[52%] object-cover z-0 transition delay-200 ease-in-out"
 				src="/command-search-bg.svg"
 				fetchPriority="high"
 				alt="command-search-bg"

@@ -81,7 +81,9 @@ function SearchDialog({open=false}:DialogParams) {
 				open={open||isOpen}
 			>
 
-				<GlobalSearch isOpen={isOpen}/>
+				<GlobalSearch 
+					isOpen={isOpen}
+				/>
 
 				<section className="flex gap-4  transition-all delay-200 ease-in-out ">
 					

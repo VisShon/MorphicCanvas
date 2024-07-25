@@ -11,7 +11,6 @@ import { PrimaryFilter } from "@/constants/filters"
 import { useRouter } from "next/router"
 import { NextURL } from "next/dist/server/web/next-url"
 // #endregion
-
 export interface State {
 	primary_filter:PrimaryFilter|null,
 	filterset: Map<string,string|string[]>,
@@ -99,7 +98,7 @@ export function FilterProvider({children}:{
 		})
 		
 		router.push({
-			pathname:"/result",
+			pathname:"/",
 			query
 		})
 		
@@ -155,7 +154,7 @@ export function FilterProvider({children}:{
 		reducer, 
 		{
 			primary_filter: null,
-			filterset: new Map<string,string|string[]>(),
+			filterset: new Map<string,string|string[]>([["fetch_options","50"],["companies","google"],["members",["about"]]]),
 		}
 	);
 
