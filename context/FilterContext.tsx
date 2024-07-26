@@ -84,8 +84,8 @@ export function FilterProvider({children}:{
 
 
 	const filter = ():void => {
+		
 		const query = {
-			primary_filter:state.primary_filter||"",
 			...Object.fromEntries(state.filterset)
 		}
 
@@ -105,9 +105,24 @@ export function FilterProvider({children}:{
 	}
 
 	const search = (value:string):void => {
-		const url = new NextURL(`/search`)
-		url.searchParams.set("value",encodeURIComponent(value))
-		router.push(url)
+		
+		const query = {
+			search:value,
+			...Object.fromEntries(state.filterset)
+		}
+
+		dispatch({
+			type: ActionType.RESETFILTER,
+			payload:{
+				key:"",
+				value:""
+			}
+		})
+		
+		router.push({
+			pathname:"/",
+			query
+		})
 	}
 
 

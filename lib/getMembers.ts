@@ -1,14 +1,17 @@
+import { 
+	Member, 
+	User 
+} from "@/constants/response";
 import axios from "axios";
 
 export const getMembers = async(
-	[company,filterset,max,search]:[string,string[],string,string]
+	[company,filterset,max="50",search]:[string,Array<keyof User>,string,string]
 ):Promise<{
 		data:any,
 		error:unknown|undefined,
 		isPending:boolean,
 	}>=>{
 
-	
 	let isPending = true
 
 	if(!company)
@@ -18,55 +21,41 @@ export const getMembers = async(
 			isPending:false
 		} 
 
-	if(!max)
-		max = "50"
-
-
 	try {
-
-		let data
-
-		const {data:members} = await axios.get(`https://api.github.com/orgs/${company}/members`,{
+		let {data:members} = await axios.get(`https://api.github.com/orgs/${company}/members`,{
 			params:{
 				per_page:max,
 				// page:1
 			}
 		})
 
+		const filtered = search ?
+								members.filter(
+									(member:Member) => member["login"].toLowerCase().includes(search.toLowerCase())
+								):
+								members
+		
 
-		if(filterset.includes("about"))
-			data = members
+		const promises = filtered.map(async(member:any,i:number)=>{
+			const {data:user} =  await axios.get(member.url)
 
+			let userdata:User = {
+				id:user?.id,
+				node_id:user?.node_id,
+			}
 
-		if(filterset.includes("public_repos"))
-			data = members.map(async(member:any,i:number)=>{
-				const{data:repos} =  await axios.get(member.repos_url)
-				return {
-					...member,
-					repos
-				}
-			})
+			for (let key of filterset){
+				if(key in user)
+					userdata[key]=user[key]
+			}
 
-		if(filterset.includes("public_gists"))
-			data = members.map(async(member:any,i:number)=>{
-				const{data:gists} =  await axios.get(member.gists_url)
-				return {
-					...member,
-					gists
-				}
-			})
+			return userdata
+		})
 
-		if(filterset.includes("organizations"))
-			data = members.map(async(member:any,i:number)=>{
-				const{data:orgs} =  await axios.get(member.organizations_url)
-				return {
-					...member,
-					orgs
-				}
-			})
+		const res = await Promise.all(promises)
 
 		return {
-			data,
+			data:res,
 			error:undefined,
 			isPending:false
 		}

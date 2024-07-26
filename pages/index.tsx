@@ -1,6 +1,7 @@
 // #region Imports
 import SearchDialog from "@/components/SearchDialog";
 import {getMembers} from "@/lib/getMembers"
+import { User } from "@/constants/response";
 import type {
 	InferGetServerSidePropsType, 
 	GetServerSideProps 
@@ -8,7 +9,8 @@ import type {
 // #endregion
 
 export default function Home(
-	{error,dataset,type}:InferGetServerSidePropsType<typeof getServerSideProps>
+	{error,dataset}:InferGetServerSidePropsType<typeof getServerSideProps>
+	
 ) {
 	console.log(dataset,error)
 
@@ -26,24 +28,44 @@ export default function Home(
 
 export const getServerSideProps = (async ({ query }) => {
 
-	const {primary_filter} = query;
+	const {company,member_details,max_results,search} = query
 
-	const {data,error,isPending} = await getMembers([
-		query.companies as string,
-		query.members as string[], 
-		query.fetch_options as string,
-		query.search as string
-	])
+	if (
+			typeof company !== 'string' || 
+			!Array.isArray(member_details) || 
+			typeof max_results !== 'string' || 
+			typeof search !== 'string'
+		) {
+		return {
+		  props: {
+			error: true,
+		  }
+		}
+	}
 
-	if(error) return({props:{
-		error:true
-	}});
+	try{
 
-	return { props: { 
-		dataset:data?.members,
-		type:primary_filter as string,
-	}};
+		const {data,error} = await getMembers([
+			company as string,
+			member_details as Array<keyof User>, 
+			max_results as string,
+			search as string
+		])
 
+		if(error)
+			return({props:{
+				error:true
+			}})
+
+		return { props: { 
+			dataset:data?.members,
+		}}
+	}
+	catch(e){
+		return({props:{
+			error:true
+		}})
+	}
 
 }) satisfies GetServerSideProps<{ 
 	error?:boolean,

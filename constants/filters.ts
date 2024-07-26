@@ -1,8 +1,9 @@
-export type PrimaryFilter = "Members"|"Companies"|"Fetch Options";
+export type PrimaryFilter = "Member Details"|"Max Results"|"Company";
 export type FilterType = "radio"|"checkbox";
 
 export interface Filter {
 	type:FilterType,
+	img:string,
 	fieldset:{
 		filter:string,
 		value:string
@@ -11,12 +12,38 @@ export interface Filter {
 
 
 export const FilterSet:Record<PrimaryFilter,Filter>={
-	"Members":{
+	"Member Details":{
 		type: "checkbox",
+		img:"/member.svg",
 		fieldset: [
 			{
-				filter: "About",
-				value: "about"
+				filter: "Username",
+				value: "login"
+			},
+
+			{
+				filter: "Name",
+				value: "name"
+			},
+
+			{
+				filter: "Bio",
+				value: "bio"
+			},
+
+			{
+				filter: "Avatar",
+				value: "avatar_url"
+			},
+
+			{
+				filter: "Email",
+				value: "email"
+			},
+
+			{
+				filter: "Followers",
+				value: "followers"
 			},
 
 			{
@@ -27,17 +54,13 @@ export const FilterSet:Record<PrimaryFilter,Filter>={
 			{
 				filter: "Gists",
 				value: "public_gists"
-			},
-
-			{
-				filter: "Organizations",
-				value: "organizations"
-			},
+			}
 		]
 	},
 
-	"Fetch Options":{
+	"Max Results":{
 		type: "radio",
+		img:"/option.svg",
 		fieldset: [
 			{
 				filter: "50",
@@ -61,8 +84,9 @@ export const FilterSet:Record<PrimaryFilter,Filter>={
 		]
 	},
 	
-	"Companies":{
+	"Company":{
 		type: "radio",
+		img:"/org.svg",
 		fieldset: [
 			{
 				filter: "Mozilla",

@@ -15,7 +15,7 @@ import RadioButton from "./others/RadioButton";
 import CheckBox from "./others/CheckBox";
 
 
-import { FilterSet, PrimaryFilter, Filter } from "../../constants/filters";
+import { FilterSet } from "../../constants/filters";
 import Backdrop from "./others/Backdrop";
 
 import { 
@@ -25,6 +25,8 @@ import {
 
 import { useMouse } from "@/hooks/useMouse";
 import GlobalSearch from "../GlobalSearch";
+import { Filter } from '../../constants/filters';
+import { PrimaryFilter } from '@/constants/filters';
 // #endregion
 
 export interface DialogParams {
@@ -88,52 +90,26 @@ function SearchDialog({open=false}:DialogParams) {
 				<section className="flex gap-4  transition-all delay-200 ease-in-out ">
 					
 					<section className="w-[50%] min-w-[24rem] flex flex-col gap-2 transition-all delay-150 ease-in-out relative z-10">
-						<PrimaryButton
-							icon="/member.svg"
-							name="Members"
-							state={state}
-							action={()=>{
-								dispatch({
-									type: ActionType.SETPRIMARY,
-									payload:{
-										key:"Members",
-										value:""
-									}
-								})	
-							}}
-							
-						/>
-
-						<PrimaryButton
-							icon="/org.svg"
-							name="Companies"
-							state={state}
-							action={()=>{
-								dispatch({
-									type: ActionType.SETPRIMARY,
-									payload:{
-										key:"Companies",
-										value:""
-									}
-								})
-							}}
-						/>
-
-						<PrimaryButton
-							icon="/option.svg"
-							name="Fetch Options"
-							state={state}
-							action={()=>{
-								dispatch({
-									type: ActionType.SETPRIMARY,
-									payload:{
-										key:"Fetch Options",
-										value:""
-									}
-								})
-							}}
-						/>
-
+						{
+							Object.keys(FilterSet).map((filter:string,i:number)=>(
+								<PrimaryButton
+									key={i}
+									icon={FilterSet[filter as PrimaryFilter].img}
+									name={filter}
+									state={state}
+									action={()=>{
+										dispatch({
+											type: ActionType.SETPRIMARY,
+											payload:{
+												key:filter,
+												value:""
+											}
+										})	
+									}}
+									
+								/>
+							))
+						}
 					</section>
 			
 					{
