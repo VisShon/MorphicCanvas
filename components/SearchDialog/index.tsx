@@ -89,7 +89,7 @@ function SearchDialog({open=false}:DialogParams) {
 
 				<section className="flex gap-4  transition-all delay-200 ease-in-out ">
 					
-					<section className="w-[50%] min-w-[24rem] flex flex-col gap-2 transition-all delay-150 ease-in-out relative z-10">
+					<section className="w-[50%] min-w-[24rem] flex flex-col gap-2 transition-all delay-150 ease-in-out relative z-10 max-h-[12em]">
 						{
 							Object.keys(FilterSet).map((filter:string,i:number)=>(
 								<PrimaryButton
@@ -114,7 +114,7 @@ function SearchDialog({open=false}:DialogParams) {
 			
 					{
 						state.primary_filter?
-						<fieldset className="w-[50%] flex flex-col gap-2 transition-all delay-150 ease-in-out relative z-10">
+						<fieldset className="w-[50%] flex flex-col gap-2 transition-all delay-150 ease-in-out relative z-10 max-h-[12em] overflow-y-scroll">
 							{
 								(() => {
 									

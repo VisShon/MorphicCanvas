@@ -63,23 +63,23 @@ export const FilterSet:Record<PrimaryFilter,Filter>={
 		img:"/option.svg",
 		fieldset: [
 			{
+				filter: "5",
+				value: "5"
+			},
+
+			{
+				filter: "10",
+				value: "10"
+			},
+
+			{
+				filter: "20",
+				value: "20"
+			},
+
+			{
 				filter: "50",
 				value: "50"
-			},
-
-			{
-				filter: "100",
-				value: "100"
-			},
-
-			{
-				filter: "500",
-				value: "500"
-			},
-
-			{
-				filter: "1000",
-				value: "1000"
 			},
 		]
 	},

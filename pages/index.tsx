@@ -30,19 +30,6 @@ export const getServerSideProps = (async ({ query }) => {
 
 	const {company,member_details,max_results,search} = query
 
-	if (
-			typeof company !== 'string' || 
-			!Array.isArray(member_details) || 
-			typeof max_results !== 'string' || 
-			typeof search !== 'string'
-		) {
-		return {
-		  props: {
-			error: true,
-		  }
-		}
-	}
-
 	try{
 
 		const {data,error} = await getMembers([
@@ -58,7 +45,7 @@ export const getServerSideProps = (async ({ query }) => {
 			}})
 
 		return { props: { 
-			dataset:data?.members,
+			dataset:data,
 		}}
 	}
 	catch(e){

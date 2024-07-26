@@ -24,7 +24,7 @@ function CheckBox({
 
 	return (
 		<label 
-			className="bg-grey-light h-full p-3 flex justify-start items-center rounded-lg w-full  hover:bg-sea-green transition-all ease-in-out delay-50 text-[1.1rem]"
+			className="bg-grey-light h-[3em] p-3 flex justify-start items-center rounded-lg w-full  hover:bg-sea-green transition-all ease-in-out delay-50 text-[1.1rem]"
             htmlFor={name} 
         >
 

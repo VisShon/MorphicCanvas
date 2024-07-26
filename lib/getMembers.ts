@@ -5,7 +5,7 @@ import {
 import axios from "axios";
 
 export const getMembers = async(
-	[company,filterset,max="50",search]:[string,Array<keyof User>,string,string]
+	[company,filterset,max="5",search]:[string,Array<keyof User>,string,string]
 ):Promise<{
 		data:any,
 		error:unknown|undefined,
@@ -29,11 +29,16 @@ export const getMembers = async(
 			}
 		})
 
+		console.log(members, "potty")
+
+
 		const filtered = search ?
 								members.filter(
 									(member:Member) => member["login"].toLowerCase().includes(search.toLowerCase())
 								):
 								members
+
+		console.log(filtered, "potty")
 		
 
 		const promises = filtered.map(async(member:any,i:number)=>{
@@ -52,6 +57,9 @@ export const getMembers = async(
 			return userdata
 		})
 
+		console.log(promises, "potty")
+
+
 		const res = await Promise.all(promises)
 
 		return {
@@ -62,6 +70,7 @@ export const getMembers = async(
 		
 	}
 	catch(error:unknown){
+
 		return {
 			data:undefined,
 			error,
