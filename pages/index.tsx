@@ -1,29 +1,31 @@
 // #region Imports
-import SearchDialog from "@/components/SearchDialog";
-import {getMembers} from "@/lib/getMembers"
-import { User } from "@/constants/response";
+import SearchDialog from "@/components/SearchDialog"
+import {getMembers} from "@/lib/members"
+import { User } from "@/constants/response"
+import sample from "@/sample.json"
 import type {
 	InferGetServerSidePropsType, 
 	GetServerSideProps 
-} from "next";
+} from "next"
+import FabricCanvas from "@/components/FabricCanvas"
 // #endregion
 
 export default function Home(
 	{error,dataset}:InferGetServerSidePropsType<typeof getServerSideProps>
-	
 ) {
-	console.log(dataset,error)
+
 
 	return (
 		<>
-			<main className="w-screen flex justify-start h-screen p-8">
+			<main className="w-screen flex justify-center items-center h-screen p-8">
 				<SearchDialog
 					// open={false}
 				/>
+				<FabricCanvas/>
 			</main>
 		</>
-	);
-};
+	)
+}
 
 
 export const getServerSideProps = (async ({ query }) => {
@@ -32,20 +34,22 @@ export const getServerSideProps = (async ({ query }) => {
 
 	try{
 
-		const {data,error} = await getMembers([
-			company as string,
-			member_details as Array<keyof User>, 
-			max_results as string,
-			search as string
-		])
+		// const {data,error} = await getMembers([
+		// 	company as string,
+		// 	member_details as Array<keyof User>, 
+		// 	max_results as string,
+		// 	search as string
+		// ])
 
-		if(error)
-			return({props:{
-				error:true
-			}})
+		// if(error)
+		// 	return({props:{
+		// 		error:true
+		// 	}})
+
+		
 
 		return { props: { 
-			dataset:data,
+			dataset:sample,
 		}}
 	}
 	catch(e){
@@ -58,6 +62,6 @@ export const getServerSideProps = (async ({ query }) => {
 	error?:boolean,
 	dataset?: {name:string}[],
 	type?: string 
-}>;
+}>
 
 

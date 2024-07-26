@@ -169,7 +169,7 @@ export function FilterProvider({children}:{
 		reducer, 
 		{
 			primary_filter: null,
-			filterset: new Map<string,string|string[]>([["fetch_options","50"],["companies","google"],["members",["about"]]]),
+			filterset: new Map<string,string|string[]>([["max_results","2"],["company","mozilla"]]),
 		}
 	);
 
