@@ -27,6 +27,7 @@ import {
 	ModifiedEvent,
 	FabricObject,
 	util,
+	Rect,
 	Point,
 } from "fabric"
 
@@ -51,7 +52,8 @@ export const CanvasContext = createContext({} as {
 	isEditing:boolean,
 
 	attributes:Attributes,
-	canvasObjects?:Record<string,string>
+	canvasObjects?:Record<string,string>,
+	addRect: (canvas:Canvas) => void
 })
 
 
@@ -92,6 +94,12 @@ export function CanvasProvider({children}:{
 			canvasRef
 		)
 
+		FabricObject.prototype.transparentCorners = false;
+		FabricObject.prototype.cornerColor = "#ff0000";
+		FabricObject.prototype.cornerStyle = "rect";
+		FabricObject.prototype.cornerStrokeColor = "#ff0000";
+		FabricObject.prototype.cornerSize = 6;
+
 		canvas.on("mouse:wheel", (event) => {
 			zoom(
 				event,
@@ -119,6 +127,8 @@ export function CanvasProvider({children}:{
 				event
 			)
 		})
+ 
+		
 
 		// canvas.on("object:modified", (event) => {
 		// 	update(
@@ -150,6 +160,22 @@ export function CanvasProvider({children}:{
 	),[canvasObjects])
 
 
+	const addRect = async (canvas:Canvas) => {
+		try{
+			const rect = new Rect({
+				height: 280,
+				width: 200,
+				fill: "#FF0000",
+			})
+	
+			await canvas?.add(rect)
+			await canvas?.requestRenderAll()
+	
+			console.log("added",rect)
+		}catch(e){
+			console.log(e)
+		}
+	}
 
 	return (
 		<CanvasContext.Provider value={{
@@ -165,6 +191,7 @@ export function CanvasProvider({children}:{
 			attributes,
 
 			// canvasObjects
+			addRect
 		}}>
 			{children}
 		</CanvasContext.Provider>

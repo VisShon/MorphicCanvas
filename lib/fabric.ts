@@ -1,6 +1,11 @@
 import { MutableRefObject } from "react"
 import {
 	Canvas,
+	Rect,
+	Group,
+	FabricText,
+	Circle,
+	FabricImage,
 	ModifiedEvent,
 	FabricObject,
 	util,
@@ -27,10 +32,13 @@ export const initialize = (
 	fabricRef.current = new Canvas(
 		canvas.current,
 		{
-			width: canvas.current?.clientWidth,
-			height: canvas.current?.clientHeight,
+			width: 1000,
+			height: 600,
+			backgroundColor: "#FFFFFF"
 		}
 	)
+
+	console.log(fabricRef.current)
 	return fabricRef.current
 }
 
@@ -211,7 +219,6 @@ export const move = (
 export const createTextNote = () => {}
 
 
-export const createMemberCard = () => {}
 
 
 

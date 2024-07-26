@@ -14,6 +14,8 @@ export default function Home(
 	{error,dataset}:InferGetServerSidePropsType<typeof getServerSideProps>
 ) {
 
+	console.log(dataset)
+
 
 	return (
 		<>
@@ -21,7 +23,9 @@ export default function Home(
 				<SearchDialog
 					// open={false}
 				/>
-				<FabricCanvas/>
+				<FabricCanvas
+					users={dataset}
+				/>
 			</main>
 		</>
 	)
@@ -31,6 +35,7 @@ export default function Home(
 export const getServerSideProps = (async ({ query }) => {
 
 	const {company,member_details,max_results,search} = query
+
 
 	try{
 
