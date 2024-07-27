@@ -21,11 +21,12 @@ export default function NameCard({
 	public_gists:number|null,
 }) {
 	return (
-		<div className="bg-white rounded-lg border-2 p-6 h-[30vh] flex flex-col justify-between  select-none">
+		<div className="bg-white rounded-lg border-2 p-6 h-[30vh] flex flex-col justify-between  select-none absolute bottom-[-99999999px]" name="nameCard">
 
 			<div className="flex justify-center">
 				<img
-					className="rounded-full border-4 border-white -mt-16"
+					crossOrigin="anonymous"
+					className="rounded-full border-4 border-white"
 					src={avatar_url ? avatar_url : "https://via.placeholder.com/80"}
 					alt={`${name ? name : "User"}"s avatar`}
 					style={{ width: "120px", height: "120px" }}
@@ -61,7 +62,7 @@ export default function NameCard({
 				{public_gists>0 && 
 					<div className="text-center mx-4 bg-slate-100 rounded-full h-[5rem] w-[5rem] p-2 flex flex-col gap-1 justify-center items-center">
 						<>
-							<FaCodeBranch className="inline-block text-gray-700 " />
+							<FaCodeBranch  className="inline-block text-gray-700 " />
 							<p className="text-gray-700 font-semibold text-[1rem]">{public_gists}</p>
 						</>
 					</div>

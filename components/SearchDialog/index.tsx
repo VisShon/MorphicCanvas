@@ -157,7 +157,7 @@ function SearchDialog({open=false}:DialogParams) {
 
 
 			<div
-				className="fixed left-8 top-8 select-none flex gap-5 bg-white p-2 px-4 min-h-[2em] w-[50%] min-w-fill rounded-xl text-[1.1rem] font-semibold text-grey-super-light cursor-pointer shadow font-nunito z-0"
+				className="fixed left-8 top-8 select-none flex gap-5 bg-white p-2 px-4 min-h-[2em] w-[50%] min-w-fill rounded-xl text-[1.1rem] font-semibold text-grey-super-light cursor-pointer shadow font-nunito z-50"
 			>
 
 				<Image

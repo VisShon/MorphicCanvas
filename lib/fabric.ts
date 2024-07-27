@@ -1,18 +1,13 @@
 import { MutableRefObject } from "react"
 import {
 	Canvas,
-	Rect,
-	Group,
-	FabricText,
-	Circle,
-	FabricImage,
 	ModifiedEvent,
 	FabricObject,
-	util,
 	Point,
 	TPointerEventInfo,
 	TEvent,
 	TPointerEvent,
+	util
 } from "fabric"
 
 
@@ -24,7 +19,6 @@ export interface Attributes {
 	fill: string,
 }
 
-// initialize the canvas componenet
 export const initialize = (
 	fabricRef:MutableRefObject<Canvas|undefined>,
 	canvas:MutableRefObject<HTMLCanvasElement|undefined>
@@ -32,8 +26,8 @@ export const initialize = (
 	fabricRef.current = new Canvas(
 		canvas.current,
 		{
-			width: 1000,
-			height: 600,
+			width: 1850,
+			height: 1100,
 			backgroundColor: "#FFFFFF"
 		}
 	)
@@ -42,7 +36,6 @@ export const initialize = (
 	return fabricRef.current
 }
 
-// selection on canvas handler
 export const selection = (
 	event: Partial<TEvent<TPointerEvent>> & {
 		selected: FabricObject[];
@@ -80,7 +73,6 @@ export const selection = (
 
 }
 
-// scale handler for notes and member components
 export const scale = (
 	event: ModifiedEvent,
 	setAttributes:React.Dispatch<React.SetStateAction<Attributes>>
@@ -104,55 +96,14 @@ export const scale = (
 
 }
 
-// handle delete event
-export const remove = (
-	e:KeyboardEvent,
-	canvas: Canvas,
-  	deleteFromStorage: (obj:FabricObject) => void
-) => {
-	if (e.key === "Backspace" || e.key === "Delete") {
-
-		const active = canvas.getActiveObjects()
-	
-		if (active?.length > 0) {
-			active.forEach((obj: FabricObject) => {
-				canvas.remove(obj)
-			})
-		}
-
-		canvas.discardActiveObject()
-		canvas.requestRenderAll()
-	}
-}
-
-// render handler
 export const render = (
 	fabricRef:MutableRefObject<Canvas|undefined>,
-	// canvasObjects:any,
 	activeObject:any,
 ) => {
 	fabricRef.current?.clear()
-
-	// canvasObjects.forEach((data:any)=>{
-	// 	util.enlivenObjects(
-	// 		[data],
-	// 		{
-	// 			reviver: (serializedObject,instance)=>{
-	// 				if (activeObject.current?.objectId === data.objectId)
-	// 					fabricRef.current?.setActiveObject(instance as FabricObject)
-
-	// 				fabricRef.current?.add(instance as FabricObject)
-	// 			}
-	// 		}
-	// 	)
-		
-	// })
-
 	fabricRef.current?.renderAll()
-	
 }
 
-//Zoom handler
 export const zoom = (
 	event: TPointerEventInfo<WheelEvent>,
 	canvas:Canvas
@@ -163,7 +114,9 @@ export const zoom = (
 	const delta = event?.e.deltaY
 	let zoom = canvas.getZoom()
 
-	const min = 0.5
+	console.log(zoom)
+
+	const min = 0.2
 	const max = 1
 	const step = 0.01
 
@@ -187,64 +140,86 @@ export const zoom = (
 	event.e.stopPropagation()
 }
 
-// restric moement within canvas
-export const move = (
-	event:ModifiedEvent
+export const keyDown = (
+	event: KeyboardEvent,
+	canvas: Canvas,
+
 ) => {
-	if(!event.target) return
-	const canvas = event.target.canvas!
 
-	event.target.setCoords()
-
-	if (event.target.left)
-		event.target.left = Math.max(
-			0,
-			Math.min(
-			event.target.left,
-				canvas.width - event.target.getScaledWidth()
-			)
-		)
+	const remove = (
+		canvas: Canvas,
+	) => {
+		const active = canvas.getActiveObjects()
 	
-	if (event.target.top)
-		event.target.top = Math.max(
-			0,
-			Math.min(
-				event.target.top,
-				canvas.height - event.target.getScaledHeight()
-			)
-		)
+		if (active?.length > 0) {
+			active.forEach((obj: FabricObject) => {
+				canvas.remove(obj)
+			})
+		}
+	
+		canvas.discardActiveObject()
+		canvas.requestRenderAll()
+	}
+	
+	const copy = (
+		canvas: Canvas,
+	) => {
+		const active = canvas.getActiveObjects()
+		
+		if (active?.length > 0) {
+			const objectArray = active.map((object)=> object.toObject())
+			localStorage.setItem("copied",JSON.stringify(objectArray))
+		}
+	}
+	
+	const paste = (
+		canvas: Canvas,
+	) => {
+		
+		const copiedData = localStorage.getItem("copied")
+	
+		if(copiedData){
+	
+			try{
+				const objectArray = JSON.parse(copiedData)
+				util.enlivenObjects(
+					objectArray,
+					{
+						reviver: (record,instance) => {
+	
+							const obj = instance as FabricObject
+	
+							obj.set({
+								left:obj.left+20,
+								top:obj.top+20,
+							})
+							
+							canvas.add(obj)
+							canvas.renderAll()
+						}
+					}
+				)
+				canvas.renderAll()
+			}
+			catch(e){
+				console.log(e)
+			}
+	
+		}
+	}
+
+	if ((event?.ctrlKey || event?.metaKey) && event.key === "c")
+		copy(canvas)
+
+	if ((event?.ctrlKey || event?.metaKey) && event.key === "v")
+		paste(canvas)
+
+	if ((event?.ctrlKey || event?.metaKey) && event.key === "x"){
+		copy(canvas)
+		remove(canvas)
+	}
+
+	if (event.key === "Backspace" || event.key === "Delete")
+		remove(canvas)
+
 }
-
-
-export const createTextNote = () => {}
-
-
-
-
-
-// // update shape in storage when asset is modified
-// export const update = (
-// 	event: ModifiedEvent,
-// ) => {
-// 	if(!event.target) return
-// 	syncLocal(event.target)
-// }
-
-// // update shape in storage when path is created when in freeform mode
-// export const handlePathCreated = ({
-// 	options,
-// 	syncLocal,
-//   }: CanvasPathCreated) => {
-// 	// get path object
-// 	const path = options.path;
-// 	if (!path) return;
-  
-// 	// set unique id to path object
-// 	path.set({
-// 	  objectId: uuid4(),
-// 	});
-  
-// 	// sync shape in storage
-// 	syncLocal(path);
-//   };
-  

@@ -2,9 +2,6 @@
 import { 
 	createContext, 
 	ReactNode,
-	Reducer, 
-	Dispatch,
-	useReducer,
 	MutableRefObject,
 } from "react"
 
@@ -13,13 +10,9 @@ import {
 	initialize ,
     selection,
 	scale,
-	// update,
-	remove,
+	keyDown,
 	render,
 	zoom,
-	move,
-	createTextNote,
-	createMemberCard
 } from "@/lib/fabric"
 
 import {
@@ -122,31 +115,13 @@ export function CanvasProvider({children}:{
 			)
 		})
 
-		canvas.on("object:moving", (event) => {
-			move(
-				event
+
+		window.addEventListener("keydown", (e) =>
+			keyDown(
+				e,
+				fabricRef.current!,
 			)
-		})
- 
-		
-
-		// canvas.on("object:modified", (event) => {
-		// 	update(
-		// 		event
-		// 	)
-		// })
-
-
-		// window.addEventListener("keydown", (e) =>
-		// 	handleKeyDown({
-		// 		e,
-		// 		canvas: fabricRef.current,
-		// 		undo,
-		// 		redo,
-		// 		syncShapeInStorage,
-		// 		deleteShapeFromStorage,
-		// 	})
-		// );
+		)
 
 		return () => {
 			canvas.dispose()
