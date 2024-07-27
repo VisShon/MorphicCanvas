@@ -1,14 +1,14 @@
 // #region Imports
-import { useContext,useState,useRef,useEffect } from "react";
-import { FilterContext} from "@/context/FilterContext";
-import Image from "next/image";
+import { useContext,useState,useRef,useEffect } from "react"
+import { FilterContext} from "@/context/FilterContext"
+import Image from "next/image"
 // #endregion
 
 
 function GlobalSearch({isOpen}:{isOpen:boolean}) {
 
-    const [value, setValue] = useState<string>("");
-    const searchElement = useRef<HTMLInputElement>(null);
+    const [value, setValue] = useState<string>("")
+    const searchElement = useRef<HTMLInputElement>(null)
 
     const {
 		search
@@ -16,9 +16,9 @@ function GlobalSearch({isOpen}:{isOpen:boolean}) {
 
 	useEffect(() => {
 		if (searchElement.current&&isOpen) {
-			searchElement.current.focus();
+			searchElement.current.focus()
 		}
-	}, [isOpen]);
+	}, [isOpen])
 
 	return (
 		<form
@@ -46,6 +46,6 @@ function GlobalSearch({isOpen}:{isOpen:boolean}) {
 					
 		</form>
 	)
-};
+}
 
-export default GlobalSearch;
+export default GlobalSearch

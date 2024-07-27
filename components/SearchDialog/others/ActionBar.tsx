@@ -1,8 +1,8 @@
-import { useContext } from "react";
+import { useContext } from "react"
 import { 
 	FilterContext,
 	ActionType 
-} from "@/context/FilterContext";
+} from "@/context/FilterContext"
 
 function ActionBar() {
 
@@ -36,6 +36,6 @@ function ActionBar() {
 			
 		</section>
 	)
-};
+}
 
-export default ActionBar;
+export default ActionBar

@@ -36,13 +36,9 @@ import { useShortcut } from "@/hooks/useShortcut"
 export const CanvasContext = createContext({} as {
 	canvasRef:MutableRefObject<HTMLCanvasElement|undefined>,
 	fabricRef:MutableRefObject<Canvas|undefined>,
-	
-	shapeRef:MutableRefObject<FabricObject|undefined>,
-	selectedShapeRef:MutableRefObject<FabricObject|undefined>,
-	activeObjectRef:MutableRefObject<FabricObject|undefined>,
 
-	isDrawing:boolean,
-	isEditing:boolean,
+	showMenu:boolean,
+	setShowMenu:React.Dispatch<React.SetStateAction<boolean>>
 
 	attributes:Attributes,
 	canvasObjects?:Record<string,string>,
@@ -55,10 +51,8 @@ export function CanvasProvider({children}:{
 }) {
 
 	const [canvasObjects,setCanvasObjects] = useState([{}])
+	const [showMenu,setShowMenu] = useState(false)
 
-
-	const [isDrawing,setIsDrawing] = useState(false)
-	const [isEditing,setIsEditing] = useState(false)
 	const [attributes,setAttributes] = useState<Attributes>({
 		x:"",
 		y:"",
@@ -71,10 +65,6 @@ export function CanvasProvider({children}:{
 	const canvasRef = useRef<HTMLCanvasElement|undefined>()
 	const fabricRef = useRef<Canvas|undefined>()
 
-	const shapeRef = useRef<FabricObject|undefined>()
-	const selectedShapeRef = useRef<FabricObject|undefined>()
-	const activeObjectRef = useRef<FabricObject|undefined>()
-
 	
 	useEffect(()=>{
 		const canvas = initialize(
@@ -82,11 +72,11 @@ export function CanvasProvider({children}:{
 			canvasRef
 		)
 
-		FabricObject.prototype.transparentCorners = false;
-		FabricObject.prototype.cornerColor = "#ff0000";
-		FabricObject.prototype.cornerStyle = "rect";
-		FabricObject.prototype.cornerStrokeColor = "#ff0000";
-		FabricObject.prototype.cornerSize = 6;
+		FabricObject.prototype.transparentCorners = false
+		FabricObject.prototype.cornerColor = "#ff0000"
+		FabricObject.prototype.cornerStyle = "rect"
+		FabricObject.prototype.cornerStrokeColor = "#ff0000"
+		FabricObject.prototype.cornerSize = 6
 
 		canvas.on("mouse:wheel", (event) => {
 			zoom(
@@ -105,10 +95,11 @@ export function CanvasProvider({children}:{
 		canvas.on("selection:created", (event) => {
 			selection(
 				event,
-				isEditing,
 				setAttributes,
 			)
+			setShowMenu(true)
 		})
+
 
 		return () => {
 			canvas.dispose()
@@ -116,10 +107,7 @@ export function CanvasProvider({children}:{
 
 	},[canvasRef])
 
-	useEffect(()=>render(
-		fabricRef,
-		activeObjectRef
-	),[canvasObjects])
+	useEffect(()=>render(fabricRef),[canvasObjects])
 
 	useShortcut([
 		["mod+C", () => copy(fabricRef.current!)],
@@ -129,7 +117,7 @@ export function CanvasProvider({children}:{
 			remove(fabricRef.current!)
 		}],
 		["Backspace", () => remove(fabricRef.current!)],
-	]);
+	])
 
 	const addRect = async (canvas:Canvas) => {
 		try{
@@ -153,15 +141,10 @@ export function CanvasProvider({children}:{
             canvasRef,
 			fabricRef,
 
-			shapeRef,
-			selectedShapeRef,
-			activeObjectRef,
-
-			isDrawing,
-			isEditing,
 			attributes,
+			showMenu,
+			setShowMenu,
 
-			// canvasObjects
 			addRect
 		}}>
 			{children}

@@ -9,11 +9,11 @@ import {
 
 
 const save = (images:string[]) => {
-	const link = document.createElement('a')
+	const link = document.createElement("a")
 	document.body.appendChild(link)
 	images.forEach(async(image)=>{
 		link.href = image
-		link.download = 'img'
+		link.download = "img"
 		link.click()
 	})
 	document.body.removeChild(link)

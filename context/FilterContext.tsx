@@ -14,14 +14,14 @@ import { NextURL } from "next/dist/server/web/next-url"
 export interface State {
 	primary_filter:PrimaryFilter|null,
 	filterset: Map<string,string|string[]>,
-};
+}
 
 export enum ActionType {
 	SETPRIMARY="SETPRIMARY",
 	ADDFILTER="ADDFILTER",
 	REMOVEFILTER="REMOVEFILTER",
 	RESETFILTER="RESETFILTER",
-};
+}
 
 export interface Action {
 	type:ActionType,
@@ -29,7 +29,7 @@ export interface Action {
 		key: string,
 		value:string|string[]
 	}
-};
+}
 
 
 export const FilterContext = createContext({} as {
@@ -80,7 +80,7 @@ export function FilterProvider({children}:{
 			default:
 				return state
 		}
-	};
+	}
 
 
 	const filter = ():void => {
@@ -127,7 +127,7 @@ export function FilterProvider({children}:{
 
 
 	const checkboxHandler = (option:string,checked:boolean,value:string):void => {
-		const currentValues = state.filterset.get(option) as string[] || [];
+		const currentValues = state.filterset.get(option) as string[] || []
 
 		if (checked) {
 			if (!currentValues.includes(value)) {
@@ -137,22 +137,22 @@ export function FilterProvider({children}:{
 						key: option,
 						value: [...currentValues, value]
 					}
-				});
+				})
 			}
 		} else {
-			const filteredValues = currentValues.filter(item => item !== value);
+			const filteredValues = currentValues.filter(item => item !== value)
 			dispatch({
 				type: ActionType.ADDFILTER,
 				payload: {
 					key: option,
 					value: filteredValues
 				}
-			});
+			})
 		}
 	}
 
 	const radioHandler = (option:string,checked:boolean,value:string):void => {
-		console.log(option,checked,value);
+		console.log(option,checked,value)
 		if(checked)
 			dispatch({
 				type: ActionType.ADDFILTER,
@@ -171,7 +171,7 @@ export function FilterProvider({children}:{
 			primary_filter: null,
 			filterset: new Map<string,string|string[]>([["max_results","2"],["company","mozilla"]]),
 		}
-	);
+	)
 
 	return (
 		<FilterContext.Provider value={{

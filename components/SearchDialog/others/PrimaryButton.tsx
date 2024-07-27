@@ -1,8 +1,8 @@
 // #region Imports
-import Image from "next/image";
-import { StaticImport } from "next/dist/shared/lib/get-img-props";
-import { State } from "@/context/FilterContext";
-import { useEffect, useState } from "react";
+import Image from "next/image"
+import { StaticImport } from "next/dist/shared/lib/get-img-props"
+import { State } from "@/context/FilterContext"
+import { useEffect, useState } from "react"
 // #endregion
 
 
@@ -11,7 +11,7 @@ export interface PrimaryButtonParams {
 	icon:string | StaticImport,
 	name:string,
 	state:State
-};
+}
 
 function PrimaryButton({action,icon,name,state}:PrimaryButtonParams) {
 	
@@ -19,7 +19,7 @@ function PrimaryButton({action,icon,name,state}:PrimaryButtonParams) {
 	const ButtonVariants = {
 		select: "bg-blue-main border-blue-main",
 		deselect: "bg-grey-light border-grey-light"
-	};
+	}
 
 	const namekey= name!.toLowerCase()
 						.replace(/\s/g, "_")
@@ -65,7 +65,7 @@ function PrimaryButton({action,icon,name,state}:PrimaryButtonParams) {
 
 		</button>
 	)
-};
+}
 
 
-export default PrimaryButton;
+export default PrimaryButton

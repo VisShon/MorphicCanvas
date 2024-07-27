@@ -8,16 +8,13 @@ import type {
 	GetServerSideProps 
 } from "next"
 import FabricCanvas from "@/components/FabricCanvas"
-import NameCard from "@/components/NameCard"
 import VerticalPanel from "@/components/VerticalPanel"
+import TextMenu from "@/components/TextMenu"
 // #endregion
 
 export default function Home(
 	{error,dataset}:InferGetServerSidePropsType<typeof getServerSideProps>
 ) {
-
-	console.log(dataset)
-
 
 	return (
 		<>
@@ -25,23 +22,13 @@ export default function Home(
 				<SearchDialog
 					open={false}
 				/>
+
 				<FabricCanvas
 					users={dataset}
 				/>
 				<VerticalPanel/>
 
-				{dataset?.map((user:any,i:number)=>
-					<NameCard
-						avatar_url={user.avatar_url}
-						name={user.name}
-						login={user.login}
-						bio={user.bio}
-						email={user.email}
-						followers={user.followers}
-						public_repos={user.public_repos}
-						public_gists={user.public_gists}
-					/>
-				)}
+				<TextMenu/>
 			</main>
 		</>
 	)

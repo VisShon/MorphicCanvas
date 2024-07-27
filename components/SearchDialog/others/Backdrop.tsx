@@ -1,5 +1,5 @@
 // #region Imports
-import Image from "next/image";
+import Image from "next/image"
 // #endregion
 
 function Backdrop() {
@@ -15,7 +15,7 @@ function Backdrop() {
 						alt="suggestion"
 					/>
 					<p className="w-[85%] text-[1.1rem]">
-						Search with specific filters to find more !
+						Search with specific filters to find more ! Shift + Click for going to github.
 					</p>
 				</section>
 				
@@ -23,15 +23,16 @@ function Backdrop() {
 
 		
 			<Image
-				className="absolute bottom-0 right-0 h-[100%] w-[52%] object-cover z-0 transition delay-200 ease-in-out"
+				className="absolute bottom-0 right-0 object-cover z-0 transition delay-200 ease-in-out"
 				src="/command-search-bg.svg"
 				fetchPriority="high"
 				alt="command-search-bg"
-				width={100} height={100}
+				width={400} 
+				height={500}
 			/>
 
 		</>
 	)
-};
+}
 
-export default Backdrop;
+export default Backdrop

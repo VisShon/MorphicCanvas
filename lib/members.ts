@@ -1,8 +1,8 @@
 import { 
 	Member, 
 	User 
-} from "@/constants/response";
-import axios from "axios";
+} from "@/constants/response"
+import axios from "axios"
 
 export const getMembers = async(
 	[company,filterset,max="5",search]:[string,Array<keyof User>,string,string]
@@ -78,4 +78,4 @@ export const getMembers = async(
 		}
 		
 	}
-};
+}

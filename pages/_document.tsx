@@ -4,7 +4,7 @@ import {
 	Head, 
 	Main, 
 	NextScript 
-} from "next/document";
+} from "next/document"
 // #endregion
 
 export default function Document() {
@@ -12,7 +12,7 @@ export default function Document() {
 		<Html lang="en">
 
 			<Head>
-				{/* <title>Morphic</title> */}
+				<title>Morphic Canvas</title>
 				<meta name="description" content="Vishnu Shon" />
 			</Head>
 
@@ -23,5 +23,5 @@ export default function Document() {
 			</body>
 			
 		</Html>
-	);
-};
+	)
+}

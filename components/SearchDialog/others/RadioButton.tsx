@@ -1,7 +1,7 @@
 // #region Imports
-import { State } from "@/context/FilterContext";
-import Image from "next/image";
-import { useEffect, useState } from "react";
+import { State } from "@/context/FilterContext"
+import Image from "next/image"
+import { useEffect, useState } from "react"
 // #endregion
 
 export interface RadioButtonParams {
@@ -9,7 +9,7 @@ export interface RadioButtonParams {
 	value:string,
 	state:State,
 	action:Function,
-};
+}
 
 function RadioButton({
 	name,
@@ -62,6 +62,6 @@ function RadioButton({
 
 		</label>
 	)
-};
+}
 
-export default RadioButton;
+export default RadioButton

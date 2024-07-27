@@ -8,6 +8,7 @@ import {
 	TPointerEventInfo,
 	TEvent,
 	TPointerEvent,
+	Textbox,
 	util
 } from "fabric"
 // #endregion
@@ -40,13 +41,12 @@ export const initialize = (
 
 export const selection = (
 	event: Partial<TEvent<TPointerEvent>> & {
-		selected: FabricObject[];
+		selected: FabricObject[]
 	},
-	isEditing: boolean,
+
 	setAttributes:React.Dispatch<React.SetStateAction<Attributes>>
 ) => {
 
-	if(isEditing) return
 	if(!event.e?.target) return
 
 	const selected:FabricObject = event?.selected[0]
@@ -128,7 +128,6 @@ export const zoom = (
 
 	event.e.stopPropagation()
 }
-
 
 export const remove = (
 	canvas: Canvas,
@@ -224,4 +223,46 @@ export const exportImg = (
 	})
 
 	return images
+}
+
+export const addText = (
+	event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+	canvas:Canvas
+) => {
+	const box = new Textbox("text",{
+		left:event.clientX,
+		top:event.clientY,
+		width: 200,
+		fontSize:18,
+		fill:"#20282D",
+		fontFamily:"Nunito"
+	})
+	canvas.add(box)
+	canvas.renderAll()
+}
+
+export const changeTextSize = (
+	canvas:Canvas,
+	size:string
+) => {
+	const active = canvas.getActiveObjects()
+	active.forEach((object)=>{
+		switch(size){
+			case "SMALL":
+				return object.set({
+					fontSize:18,
+				})
+			case "MEDIUM":
+				return object.set({
+					fontSize:24,
+				})
+			case "LARGE":
+				return object.set({
+					fontSize:32,
+				})
+			default:
+				return
+		}
+	})
+	canvas.renderAll()
 }

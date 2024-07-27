@@ -1,5 +1,5 @@
-export type PrimaryFilter = "Member Details"|"Max Results"|"Company";
-export type FilterType = "radio"|"checkbox";
+export type PrimaryFilter = "Member Details"|"Max Results"|"Company"
+export type FilterType = "radio"|"checkbox"
 
 export interface Filter {
 	type:FilterType,
@@ -8,7 +8,7 @@ export interface Filter {
 		filter:string,
 		value:string
 	}[]
-};
+}
 
 
 export const FilterSet:Record<PrimaryFilter,Filter>={
@@ -110,4 +110,4 @@ export const FilterSet:Record<PrimaryFilter,Filter>={
 
 		]
 	}
-};
+}

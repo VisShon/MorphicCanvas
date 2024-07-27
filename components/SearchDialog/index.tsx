@@ -1,37 +1,37 @@
 // #region Imports
-import { useShortcut } from "@/hooks/useShortcut";
+import { useShortcut } from "@/hooks/useShortcut"
+import { useMouse } from "@/hooks/useMouse"
 
 import { 
 	useContext, 
 	useState, 
 	useEffect, 
 	useRef 
-} from "react";
+} from "react"
 
-import Image from "next/image";
-import PrimaryButton from "./others/PrimaryButton";
-import ActionBar from "./others/ActionBar";
-import RadioButton from "./others/RadioButton";
-import CheckBox from "./others/CheckBox";
+import Image from "next/image"
+import PrimaryButton from "./others/PrimaryButton"
+import ActionBar from "./others/ActionBar"
+import RadioButton from "./others/RadioButton"
+import CheckBox from "./others/CheckBox"
 
 
-import { FilterSet } from "../../constants/filters";
-import Backdrop from "./others/Backdrop";
+import { FilterSet } from "../../constants/filters"
+import Backdrop from "./others/Backdrop"
 
 import { 
 	FilterContext,
 	ActionType 
-} from "@/context/FilterContext";
+} from "@/context/FilterContext"
 
-import { useMouse } from "@/hooks/useMouse";
-import GlobalSearch from "../GlobalSearch";
-import { Filter } from '../../constants/filters';
-import { PrimaryFilter } from '@/constants/filters';
+import GlobalSearch from "../GlobalSearch"
+import { Filter } from "../../constants/filters"
+import { PrimaryFilter } from "@/constants/filters"
 // #endregion
 
 export interface DialogParams {
 	open?:boolean,
-};
+}
 
 
 function SearchDialog({open=false}:DialogParams) {
@@ -45,15 +45,15 @@ function SearchDialog({open=false}:DialogParams) {
 
 	const dialogRef = useRef<HTMLDialogElement>(null)
 	
-	const [isOpen,setIsOpen] = useState<boolean>(false);
-	const [mod,setMod] = useState<string>("Ctrl");
+	const [isOpen,setIsOpen] = useState<boolean>(false)
+	const [mod,setMod] = useState<string>("Ctrl")
 
 	useShortcut([
 		["mod+K", () => setIsOpen(prev => !prev)],
 		["Escape", () => {
-			setIsOpen(false);
+			setIsOpen(false)
 		}],
-	]);
+	])
 
 	useMouse({
 		combination:"mousedown", 
@@ -71,7 +71,7 @@ function SearchDialog({open=false}:DialogParams) {
 			:false
 		) setMod("⌘")
 
-	},[navigator.userAgent]);
+	},[navigator.userAgent])
 
 
 	return (
@@ -120,7 +120,7 @@ function SearchDialog({open=false}:DialogParams) {
 									
 									const options = FilterSet[state.primary_filter!]
 
-									if (!options) return null;
+									if (!options) return null
 
 									return(
 										options.fieldset.map((field: { filter: string, value: string }, id: number) => (
@@ -200,7 +200,7 @@ function SearchDialog({open=false}:DialogParams) {
 			</div>
 		</>
 	)
-};
+}
 
 
 export default SearchDialog

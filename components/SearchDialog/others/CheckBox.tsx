@@ -1,6 +1,6 @@
 // #region Imports
-import { State } from "@/context/FilterContext";
-import Image from "next/image";
+import { State } from "@/context/FilterContext"
+import Image from "next/image"
 // #endregion
 
 export interface CheckBoxParams {
@@ -8,7 +8,7 @@ export interface CheckBoxParams {
 	value:string,
 	state:State,
 	action:Function,
-};
+}
 
 function CheckBox({
 	name,
@@ -62,6 +62,6 @@ function CheckBox({
 
 		</label>
 	)
-};
+}
 
-export default CheckBox;
+export default CheckBox

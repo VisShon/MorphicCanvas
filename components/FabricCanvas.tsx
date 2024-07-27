@@ -1,7 +1,6 @@
-import {MutableRefObject, useContext, useEffect} from "react"
+import {MutableRefObject, useContext, useEffect, useMemo} from "react"
 import { CanvasContext } from "@/context/CanvasContext"
-import html2canvas from "html2canvas"
-import {FabricImage} from "fabric"
+import { createNameCard } from "@/lib/namecard"
 
 
 function FabricCanvas({users}:{users:any}) {
@@ -9,33 +8,42 @@ function FabricCanvas({users}:{users:any}) {
 	const {
 		fabricRef,
 		canvasRef,
-		addRect
 	} = useContext(CanvasContext)
 
-	useEffect(()=>{
-		(async()=>{
-			const elements = document.getElementsByName("nameCard")
-			elements.forEach(async (element) => {
-				if (element) {
-					const canvas = await html2canvas(element,{
-						allowTaint: true,
-						useCORS:true,
-					})
-					const imgData = canvas.toDataURL('image/png')
-					var img = await FabricImage.fromURL(imgData,{},{
-						left: 100,
-						top: 100,
-						angle: 0,
-						opacity: 1
-					})
-					fabricRef.current?.add(img);
-					fabricRef.current?.renderAll();
-				}
-			})
-		})()
-	}, [users])
+	const memoizedUsers = useMemo(()=>users,[users])
 
-	  
+	useEffect(()=>{
+
+		if (fabricRef.current) {
+            fabricRef.current.clear()
+        }
+
+		const cardWidth = 300
+		const cardHeight = 350
+
+		memoizedUsers.forEach((user:any,index:number)=>{
+			
+
+			const left = 200+Math.floor(index/2) * (cardWidth+20) // 20 for spacing
+			const top = 200+Math.floor(index%2) * (cardHeight+20) 
+
+			createNameCard(
+				user.avatar_url,
+				user.name,
+				user.login,
+				user.bio,
+				user.email,
+				user.followers,
+				user.public_repos,
+				user.public_gists,
+				user.html_url,
+				left,
+				top,
+				fabricRef
+			)
+		})
+
+	}, [memoizedUsers,fabricRef])
 
 	return (
 		<>
