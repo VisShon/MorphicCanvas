@@ -8,6 +8,8 @@ import type {
 	GetServerSideProps 
 } from "next"
 import FabricCanvas from "@/components/FabricCanvas"
+import NameCard from "@/components/NameCard"
+import VerticalPanel from "@/components/VerticalPanel"
 // #endregion
 
 export default function Home(
@@ -19,13 +21,27 @@ export default function Home(
 
 	return (
 		<>
-			<main className="w-screen flex justify-center items-center h-screen p-8">
+			<main className="w-screen flex justify-center items-center h-screen p-8 overflow-clip">
 				<SearchDialog
-					// open={false}
+					open={false}
 				/>
 				<FabricCanvas
 					users={dataset}
 				/>
+				<VerticalPanel/>
+
+				{dataset?.map((user:any,i:number)=>
+					<NameCard
+						avatar_url={user.avatar_url}
+						name={user.name}
+						login={user.login}
+						bio={user.bio}
+						email={user.email}
+						followers={user.followers}
+						public_repos={user.public_repos}
+						public_gists={user.public_gists}
+					/>
+				)}
 			</main>
 		</>
 	)

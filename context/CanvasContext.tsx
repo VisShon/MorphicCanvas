@@ -10,18 +10,17 @@ import {
 	initialize ,
     selection,
 	scale,
-	keyDown,
+	copy,
+	paste,
+	remove,
 	render,
 	zoom,
 } from "@/lib/fabric"
 
 import {
 	Canvas,
-	ModifiedEvent,
 	FabricObject,
-	util,
 	Rect,
-	Point,
 } from "fabric"
 
 import { 
@@ -29,6 +28,7 @@ import {
 	useRef, 
 	useState 
 } from "react"
+import { useShortcut } from "@/hooks/useShortcut"
 
 // #endregion
 
@@ -75,12 +75,7 @@ export function CanvasProvider({children}:{
 	const selectedShapeRef = useRef<FabricObject|undefined>()
 	const activeObjectRef = useRef<FabricObject|undefined>()
 
-
-	// can implement local storage key value string for storing objects state
-	// implement delete with useShortcut
-
 	
-
 	useEffect(()=>{
 		const canvas = initialize(
 			fabricRef,
@@ -115,14 +110,6 @@ export function CanvasProvider({children}:{
 			)
 		})
 
-
-		window.addEventListener("keydown", (e) =>
-			keyDown(
-				e,
-				fabricRef.current!,
-			)
-		)
-
 		return () => {
 			canvas.dispose()
 		}
@@ -134,6 +121,15 @@ export function CanvasProvider({children}:{
 		activeObjectRef
 	),[canvasObjects])
 
+	useShortcut([
+		["mod+C", () => copy(fabricRef.current!)],
+		["mod+V", () => paste(fabricRef.current!)],
+		["mod+X", () => {
+			copy(fabricRef.current!)
+			remove(fabricRef.current!)
+		}],
+		["Backspace", () => remove(fabricRef.current!)],
+	]);
 
 	const addRect = async (canvas:Canvas) => {
 		try{
@@ -143,8 +139,8 @@ export function CanvasProvider({children}:{
 				fill: "#FF0000",
 			})
 	
-			await canvas?.add(rect)
-			await canvas?.requestRenderAll()
+			canvas?.add(rect)
+			canvas?.requestRenderAll()
 	
 			console.log("added",rect)
 		}catch(e){

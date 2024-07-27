@@ -1,3 +1,4 @@
+// #region Imports
 import { MutableRefObject } from "react"
 import {
 	Canvas,
@@ -9,7 +10,7 @@ import {
 	TPointerEvent,
 	util
 } from "fabric"
-
+// #endregion
 
 export interface Attributes {
 	x:string,
@@ -28,7 +29,8 @@ export const initialize = (
 		{
 			width: 1850,
 			height: 1100,
-			backgroundColor: "#FFFFFF"
+			backgroundColor: "#FFFFFF",
+			zoom: 0.5,
 		}
 	)
 
@@ -98,7 +100,6 @@ export const scale = (
 
 export const render = (
 	fabricRef:MutableRefObject<Canvas|undefined>,
-	activeObject:any,
 ) => {
 	fabricRef.current?.clear()
 	fabricRef.current?.renderAll()
@@ -114,30 +115,81 @@ export const zoom = (
 	const delta = event?.e.deltaY
 	let zoom = canvas.getZoom()
 
-	console.log(zoom)
-
-	const min = 0.2
-	const max = 1
-	const step = 0.01
-
-	zoom = Math.min(
-				Math.max(
-					min,
-					zoom + delta * step
-				),
-				max
-			)
-	
-
 	canvas.zoomToPoint( 
 		new Point(
 			event.e.offsetX,
 			event.e.offsetY
 		),
-		zoom
+		Math.min( 
+			Math.max(0.2, zoom + delta * 0.01), 
+			1
+		)
 	)
 
 	event.e.stopPropagation()
+}
+
+
+export const remove = (
+	canvas: Canvas,
+) => {
+	const active = canvas.getActiveObjects()
+
+	if (active?.length > 0) {
+		active.forEach((obj: FabricObject) => {
+			canvas.remove(obj)
+		})
+	}
+
+	canvas.discardActiveObject()
+	canvas.requestRenderAll()
+}
+
+export const copy = (
+	canvas: Canvas,
+) => {
+	const active = canvas.getActiveObjects()
+	
+	if (active?.length > 0) {
+		const objectArray = active.map((object)=> object.toObject())
+		localStorage.setItem("copied",JSON.stringify(objectArray))
+	}
+}
+
+export const paste = (
+	canvas: Canvas,
+) => {
+	
+	const copiedData = localStorage.getItem("copied")
+
+	if(copiedData){
+
+		try{
+			const objectArray = JSON.parse(copiedData)
+			util.enlivenObjects(
+				objectArray,
+				{
+					reviver: (record,instance) => {
+
+						const obj = instance as FabricObject
+
+						obj.set({
+							left:obj.left+20,
+							top:obj.top+20,
+						})
+						
+						canvas.add(obj)
+						canvas.renderAll()
+					}
+				}
+			)
+			canvas.renderAll()
+		}
+		catch(e){
+			console.log(e)
+		}
+
+	}
 }
 
 export const keyDown = (
@@ -145,68 +197,6 @@ export const keyDown = (
 	canvas: Canvas,
 
 ) => {
-
-	const remove = (
-		canvas: Canvas,
-	) => {
-		const active = canvas.getActiveObjects()
-	
-		if (active?.length > 0) {
-			active.forEach((obj: FabricObject) => {
-				canvas.remove(obj)
-			})
-		}
-	
-		canvas.discardActiveObject()
-		canvas.requestRenderAll()
-	}
-	
-	const copy = (
-		canvas: Canvas,
-	) => {
-		const active = canvas.getActiveObjects()
-		
-		if (active?.length > 0) {
-			const objectArray = active.map((object)=> object.toObject())
-			localStorage.setItem("copied",JSON.stringify(objectArray))
-		}
-	}
-	
-	const paste = (
-		canvas: Canvas,
-	) => {
-		
-		const copiedData = localStorage.getItem("copied")
-	
-		if(copiedData){
-	
-			try{
-				const objectArray = JSON.parse(copiedData)
-				util.enlivenObjects(
-					objectArray,
-					{
-						reviver: (record,instance) => {
-	
-							const obj = instance as FabricObject
-	
-							obj.set({
-								left:obj.left+20,
-								top:obj.top+20,
-							})
-							
-							canvas.add(obj)
-							canvas.renderAll()
-						}
-					}
-				)
-				canvas.renderAll()
-			}
-			catch(e){
-				console.log(e)
-			}
-	
-		}
-	}
 
 	if ((event?.ctrlKey || event?.metaKey) && event.key === "c")
 		copy(canvas)
@@ -222,4 +212,16 @@ export const keyDown = (
 	if (event.key === "Backspace" || event.key === "Delete")
 		remove(canvas)
 
+}
+
+export const exportImg = (
+	canvas:Canvas
+) => {
+	const active = canvas.getActiveObjects()
+	
+	let images:string[] = active.map((object)=>{
+		return object.toDataURL()
+	})
+
+	return images
 }

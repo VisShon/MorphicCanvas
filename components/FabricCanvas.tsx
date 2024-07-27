@@ -1,6 +1,5 @@
 import {MutableRefObject, useContext, useEffect} from "react"
 import { CanvasContext } from "@/context/CanvasContext"
-import NameCard from "./NameCard"
 import html2canvas from "html2canvas"
 import {FabricImage} from "fabric"
 
@@ -40,20 +39,6 @@ function FabricCanvas({users}:{users:any}) {
 
 	return (
 		<>
-
-			{users.map((user:any,i:number)=>
-				<NameCard
-					avatar_url={user.avatar_url}
-					name={user.name}
-					login={user.login}
-					bio={user.bio}
-					email={user.email}
-					followers={user.followers}
-					public_repos={user.public_repos}
-					public_gists={user.public_gists}
-				/>
-			)}
-
 			<canvas
 				ref={canvasRef as MutableRefObject<HTMLCanvasElement>}
 			/>
