@@ -1,6 +1,6 @@
 import { useShortcut } from "@/hooks/useShortcut"
 import { CanvasContext } from "@/context/CanvasContext"
-import { exportImg } from "@/lib/fabric"
+import { exportImg, save } from "@/lib/fabric"
 import Image from "next/image"
 import {
 	useState,
@@ -8,16 +8,6 @@ import {
 } from "react"
 
 
-const save = (images:string[]) => {
-	const link = document.createElement("a")
-	document.body.appendChild(link)
-	images.forEach(async(image)=>{
-		link.href = image
-		link.download = "img"
-		link.click()
-	})
-	document.body.removeChild(link)
-}
 
 function VerticalPanel() {
 
@@ -51,6 +41,7 @@ function VerticalPanel() {
 						{
 							images.map((img,i)=>(
 								<Image
+									key={i}
 									src={img}
 									height={100}
 									width={100}

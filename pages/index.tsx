@@ -18,8 +18,6 @@ export default function Home(
 
 	const memoizedUsers = useMemo(()=>dataset,[dataset])
 
-	console.log(error,dataset)
-
 	return (
 		<>
 			<main className="w-screen flex justify-center items-center h-screen p-8 overflow-clip">
@@ -29,6 +27,8 @@ export default function Home(
 				/>
 
 				<FabricCanvas/>
+
+				{error && <p>Rate limit exceeded this happens becuase some assests need fecthing from user url</p>}
 				<VerticalPanel/>
 				<TextMenu/>
 			</main>

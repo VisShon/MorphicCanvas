@@ -1,7 +1,6 @@
 // #region Imports
 import { State } from "@/context/FilterContext"
 import Image from "next/image"
-import { useEffect, useState } from "react"
 // #endregion
 
 export interface RadioButtonParams {
