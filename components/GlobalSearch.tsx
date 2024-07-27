@@ -1,18 +1,19 @@
 // #region Imports
-import { useContext,useState,useRef,useEffect } from "react"
-import { FilterContext} from "@/context/FilterContext"
+import { useContext,useState,useRef,useEffect,useDeferredValue } from "react"
 import Image from "next/image"
+import { CanvasContext } from '@/context/CanvasContext';
+import { createNameCard } from "@/lib/namecard";
 // #endregion
 
 
-function GlobalSearch({isOpen}:{isOpen:boolean}) {
+function GlobalSearch({isOpen,users}:{isOpen:boolean,users:any[]}) {
 
-    const [value, setValue] = useState<string>("")
+	const {fabricRef} = useContext(CanvasContext)
+
+    const [searchParam, setSearchparam] = useState<string>("")
+	const defferedSearch = useDeferredValue<string>(searchParam)
+
     const searchElement = useRef<HTMLInputElement>(null)
-
-    const {
-		search
-	} = useContext(FilterContext)
 
 	useEffect(() => {
 		if (searchElement.current&&isOpen) {
@@ -20,11 +21,44 @@ function GlobalSearch({isOpen}:{isOpen:boolean}) {
 		}
 	}, [isOpen])
 
+
+	useEffect(()=>{
+
+		if (fabricRef.current) {
+			fabricRef.current.clear()
+		}
+
+		const filtered = users?.filter((user)=>
+			user?.login?.toLowerCase().includes(defferedSearch) ||
+			user?.name?.toLowerCase().includes(defferedSearch) ||
+			user?.email?.toLowerCase().includes(defferedSearch)
+		)
+
+
+		filtered?.forEach((user:any,index:number)=>{
+			createNameCard(
+				user.avatar_url,
+				user.name,
+				user.login,
+				user.bio,
+				user.email,
+				user.followers,
+				user.public_repos,
+				user.public_gists,
+				user.html_url,
+				index,
+				fabricRef
+			)
+		})
+
+	}, [users,fabricRef,defferedSearch])
+
+
+
 	return (
-		<form
-			action="#"
-			onSubmit={()=>search(value.toLowerCase())} 
-			className="relative flex items-center gap-2  text-grey-light font-medium mb-4 z-10 text-[1.1rem]">
+		<div
+			className="relative flex items-center gap-2  text-grey-light font-medium mb-4 z-10 text-[1.1rem]"
+		>
 
 			<Image
 				className="absolute left-10"
@@ -36,15 +70,15 @@ function GlobalSearch({isOpen}:{isOpen:boolean}) {
 
 			<input 
 				className=" bg-chalk border-[2px] pl-20 focus:outline-none clear-none p-4 w-full rounded-lg  border-chalk-dark hover:border-blue-main transition-all ease-in-out delay-100 "
-				value={value}
+				value={searchParam}
 				ref={searchElement}
 				autoFocus
-				onChange={(e)=>setValue(e.target.value.toLowerCase())}
+				onChange={(e)=>setSearchparam(e.target.value.toLowerCase())}
 				type="search"
 				placeholder={`Try typing "username"...`}
 			/>
 					
-		</form>
+		</div>
 	)
 }
 

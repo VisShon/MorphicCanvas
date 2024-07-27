@@ -123,13 +123,15 @@ export const createNameCard = (
 	public_repos:number,
 	public_gists:number,
 	html_url:string,
-	left: number,
-    top: number,
+	index: number,
 	fabricRef:MutableRefObject<Canvas|undefined>
 ) => {
 
 	const cardWidth = 300
 	const cardHeight = 350
+
+	const left = 200+Math.floor(index/2) * (cardWidth+20) // 20 for spacing
+	const top = 200+Math.floor(index%2) * (cardHeight+20) 
 
 	const cardBackground = createRoundedRect(
 		cardWidth, 
@@ -142,7 +144,7 @@ export const createNameCard = (
 	createImage(
 		avatar_url ? 
 		avatar_url : 
-		"https://via.placeholder.com/80", 
+		"https://static.vecteezy.com/system/resources/thumbnails/003/337/584/small/default-avatar-photo-placeholder-profile-icon-vector.jpg", 
 
 		left + cardWidth / 2, top+70, 120, 120,
 		
@@ -156,18 +158,25 @@ export const createNameCard = (
 			if (login) elements.push(createText(login, left+cardWidth / 2, top+190, 16))
 			if (name) elements.push(createText(name, left+cardWidth / 2, top+160, 24, "bold"))
 
-			if (bio) elements.push(createText(`${bio}`, left+cardWidth / 2, top+220, 14))
+			if (bio) elements.push(createText(`${bio.slice(0,40)}`, left+cardWidth / 2, top+220, 14))
 			if (email) elements.push(createText(email, left+cardWidth / 2, top+240, 14))
 
 			const circleSpacing = 100
 
-			const followersElements = await createInfoCircle("/followers.svg", followers.toString(), left+cardWidth / 2 - circleSpacing, top+300)
-			const reposElements = await createInfoCircle("/repo.svg", public_repos.toString(), left+cardWidth / 2, top+300)
-			const gistsElements = await createInfoCircle("/gist.svg", public_gists.toString(), left+cardWidth / 2 + circleSpacing, top+300)
+			if(followers){
+				const followersElements = await createInfoCircle("/followers.svg", followers?.toString(), left+cardWidth / 2 - circleSpacing, top+300)
+				elements.push(...followersElements)
+			}
 
-			elements.push(...followersElements)
-			elements.push(...reposElements)
-			elements.push(...gistsElements)
+			if(public_repos){
+				const reposElements = await createInfoCircle("/repo.svg", public_repos?.toString(), left+cardWidth / 2, top+300)
+				elements.push(...reposElements)
+			}
+
+			if(public_gists){
+				const gistsElements = await createInfoCircle("/gist.svg", public_gists?.toString(), left+cardWidth / 2 + circleSpacing, top+300)
+				elements.push(...gistsElements)
+			}
 
 			const group = new Group(elements, {
 				left: left,
@@ -180,7 +189,6 @@ export const createNameCard = (
 					window.open(html_url)
 			})
 
-			console.log(html_url)
 			fabricRef.current?.add(group)
 			fabricRef.current?.renderAll()
 		}

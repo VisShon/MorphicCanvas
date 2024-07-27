@@ -116,7 +116,7 @@ export function CanvasProvider({children}:{
 			copy(fabricRef.current!)
 			remove(fabricRef.current!)
 		}],
-		["Backspace", () => remove(fabricRef.current!)],
+		["mod+Backspace", () => remove(fabricRef.current!)],
 	])
 
 	const addRect = async (canvas:Canvas) => {
@@ -130,7 +130,6 @@ export function CanvasProvider({children}:{
 			canvas?.add(rect)
 			canvas?.requestRenderAll()
 	
-			console.log("added",rect)
 		}catch(e){
 			console.log(e)
 		}

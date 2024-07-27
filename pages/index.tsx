@@ -2,7 +2,6 @@
 import SearchDialog from "@/components/SearchDialog"
 import {getMembers} from "@/lib/members"
 import { User } from "@/constants/response"
-import sample from "@/sample.json"
 import type {
 	InferGetServerSidePropsType, 
 	GetServerSideProps 
@@ -10,24 +9,27 @@ import type {
 import FabricCanvas from "@/components/FabricCanvas"
 import VerticalPanel from "@/components/VerticalPanel"
 import TextMenu from "@/components/TextMenu"
+import { useMemo } from "react"
 // #endregion
 
 export default function Home(
 	{error,dataset}:InferGetServerSidePropsType<typeof getServerSideProps>
 ) {
 
+	const memoizedUsers = useMemo(()=>dataset,[dataset])
+
+	console.log(error,dataset)
+
 	return (
 		<>
 			<main className="w-screen flex justify-center items-center h-screen p-8 overflow-clip">
 				<SearchDialog
 					open={false}
+					users={memoizedUsers}
 				/>
 
-				<FabricCanvas
-					users={dataset}
-				/>
+				<FabricCanvas/>
 				<VerticalPanel/>
-
 				<TextMenu/>
 			</main>
 		</>
@@ -37,27 +39,28 @@ export default function Home(
 
 export const getServerSideProps = (async ({ query }) => {
 
-	const {company,member_details,max_results,search} = query
-
+	const {
+		company,
+		member_details,
+		page
+	} = query
 
 	try{
 
-		// const {data,error} = await getMembers([
-		// 	company as string,
-		// 	member_details as Array<keyof User>, 
-		// 	max_results as string,
-		// 	search as string
-		// ])
+		const {data,error} = await getMembers([
+			company as string,
+			member_details as Array<keyof User>, 
+			page as string,
+		])
 
-		// if(error)
-		// 	return({props:{
-		// 		error:true
-		// 	}})
-
-		
+		if(error){
+			return({props:{
+				error:true
+			}})
+		}
 
 		return { props: { 
-			dataset:sample,
+			dataset:data,
 		}}
 	}
 	catch(e){

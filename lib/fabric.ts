@@ -35,7 +35,6 @@ export const initialize = (
 		}
 	)
 
-	console.log(fabricRef.current)
 	return fabricRef.current
 }
 

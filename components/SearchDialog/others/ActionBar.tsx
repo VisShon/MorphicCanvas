@@ -31,7 +31,7 @@ function ActionBar() {
 				onClick={filter}
 				className="p-2 px-4 bg-blue-main hover:bg-blue-dark rounded-lg  font-bold text-[1rem] transition-all ease-in-out delay-50"
 			>
-				Show Results
+				Load New Results
 			</button>
 			
 		</section>

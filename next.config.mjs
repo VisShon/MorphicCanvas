@@ -8,7 +8,7 @@ const nextConfig = withImages({
 		remotePatterns: [
 			{
 				protocol: "https",
-				hostname: "devfolio.co",
+				hostname: "static.vecteezy.com",
 			},
 		],
 	},

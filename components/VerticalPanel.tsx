@@ -26,7 +26,7 @@ function VerticalPanel() {
 	const [images,setImages] = useState<string[]>([])
 
 	useShortcut([
-		["mod+E", () => {
+		["mod+S", () => {
 			setShow(true)
 			const res = exportImg(fabricRef.current!)
 			setImages(res)

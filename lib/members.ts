@@ -3,9 +3,11 @@ import {
 	User 
 } from "@/constants/response"
 import axios from "axios"
+import sample from "@/sample.json"
+
 
 export const getMembers = async(
-	[company,filterset,max="5",search]:[string,Array<keyof User>,string,string]
+	[company,filterset,page="1"]:[string,Array<keyof User>,string]
 ):Promise<{
 		data:any,
 		error:unknown|undefined,
@@ -22,43 +24,45 @@ export const getMembers = async(
 		} 
 
 	try {
-		let {data:members} = await axios.get(`https://api.github.com/orgs/${company}/members`,{
-			params:{
-				per_page:max,
-				// page:1
-			}
-		})
 
-		console.log(members, "potty")
+		// let {data:members} = await axios.get(`https://api.github.com/orgs/${company}/members`,{
+		// 	params:{
+		// 		page:page
+		// 	}
+		// })
 
 
-		const filtered = search ?
-								members.filter(
-									(member:Member) => member["login"].toLowerCase().includes(search.toLowerCase())
-								):
-								members
+		// const promises = members.map(async(member:any,i:number)=>{
+		// 	const {data:user} =  await axios.get(member.url)
 
-		console.log(filtered, "potty")
-		
+		// 	let userdata:User = {
+		// 		id:user?.id,
+		// 		node_id:user?.node_id,
+		// 	}
 
-		const promises = filtered.map(async(member:any,i:number)=>{
-			const {data:user} =  await axios.get(member.url)
+		// 	for (let key of filterset){
+		// 		if(key in user)
+		// 			userdata[key]=user[key]
+		// 	}
 
+		// 	return userdata
+		// })
+
+		const promises = sample.map(async(member:any,i:number)=>{
 			let userdata:User = {
-				id:user?.id,
-				node_id:user?.node_id,
+				id:member?.id,
+				node_id:member?.node_id,
+				name:member?.name,
+				avatar_url:member?.avatar_url
 			}
 
 			for (let key of filterset){
-				if(key in user)
-					userdata[key]=user[key]
+				if(key in member)
+					userdata[key]=member[key]
 			}
 
 			return userdata
 		})
-
-		console.log(promises, "potty")
-
 
 		const res = await Promise.all(promises)
 
@@ -70,7 +74,6 @@ export const getMembers = async(
 		
 	}
 	catch(error:unknown){
-
 		return {
 			data:undefined,
 			error,

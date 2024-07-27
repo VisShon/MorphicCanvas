@@ -31,11 +31,9 @@ export interface Action {
 	}
 }
 
-
 export const FilterContext = createContext({} as {
 	state:State,
 	dispatch:Dispatch<Action>,
-	search:(value:string)=>void,
 	filter:()=>void,
 	checkboxHandler:(option:string,checked:boolean,value:string)=>void,
 	radioHandler:(option:string,checked:boolean,value:string)=>void,
@@ -104,27 +102,6 @@ export function FilterProvider({children}:{
 		
 	}
 
-	const search = (value:string):void => {
-		
-		const query = {
-			search:value,
-			...Object.fromEntries(state.filterset)
-		}
-
-		dispatch({
-			type: ActionType.RESETFILTER,
-			payload:{
-				key:"",
-				value:""
-			}
-		})
-		
-		router.push({
-			pathname:"/",
-			query
-		})
-	}
-
 
 	const checkboxHandler = (option:string,checked:boolean,value:string):void => {
 		const currentValues = state.filterset.get(option) as string[] || []
@@ -152,7 +129,6 @@ export function FilterProvider({children}:{
 	}
 
 	const radioHandler = (option:string,checked:boolean,value:string):void => {
-		console.log(option,checked,value)
 		if(checked)
 			dispatch({
 				type: ActionType.ADDFILTER,
@@ -163,13 +139,16 @@ export function FilterProvider({children}:{
 			})
 	}
 
-	
-
 	const [state, dispatch] = useReducer<Reducer<State,Action>>(
 		reducer, 
 		{
 			primary_filter: null,
-			filterset: new Map<string,string|string[]>([["max_results","2"],["company","mozilla"]]),
+			filterset: new Map<string,string|string[]>(
+				[
+					["page","1"],
+					["company","mozilla"],
+				]
+			),
 		}
 	)
 
@@ -177,7 +156,6 @@ export function FilterProvider({children}:{
 		<FilterContext.Provider value={{
 			state,
             dispatch,
-			search,
 			filter,
 			checkboxHandler,
 			radioHandler

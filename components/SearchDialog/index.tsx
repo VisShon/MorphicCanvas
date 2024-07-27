@@ -31,10 +31,11 @@ import { PrimaryFilter } from "@/constants/filters"
 
 export interface DialogParams {
 	open?:boolean,
+	users:any[]
 }
 
 
-function SearchDialog({open=false}:DialogParams) {
+function SearchDialog({open=false,users}:DialogParams) {
 
 	const {
 		state,
@@ -85,6 +86,7 @@ function SearchDialog({open=false}:DialogParams) {
 
 				<GlobalSearch 
 					isOpen={isOpen}
+					users={users}
 				/>
 
 				<section className="flex gap-4  transition-all delay-200 ease-in-out ">

@@ -1,4 +1,4 @@
-export type PrimaryFilter = "Member Details"|"Max Results"|"Company"
+export type PrimaryFilter = "Member Details"|"Page"|"Company"
 export type FilterType = "radio"|"checkbox"
 
 export interface Filter {
@@ -22,18 +22,8 @@ export const FilterSet:Record<PrimaryFilter,Filter>={
 			},
 
 			{
-				filter: "Name",
-				value: "name"
-			},
-
-			{
 				filter: "Bio",
 				value: "bio"
-			},
-
-			{
-				filter: "Avatar",
-				value: "avatar_url"
 			},
 
 			{
@@ -58,28 +48,28 @@ export const FilterSet:Record<PrimaryFilter,Filter>={
 		]
 	},
 
-	"Max Results":{
+	"Page":{
 		type: "radio",
 		img:"/option.svg",
 		fieldset: [
 			{
-				filter: "5",
-				value: "5"
+				filter: "1",
+				value: "1"
 			},
 
 			{
-				filter: "10",
-				value: "10"
+				filter: "2",
+				value: "2"
 			},
 
 			{
-				filter: "20",
-				value: "20"
+				filter: "3",
+				value: "3"
 			},
 
 			{
-				filter: "50",
-				value: "50"
+				filter: "4",
+				value: "4"
 			},
 		]
 	},
