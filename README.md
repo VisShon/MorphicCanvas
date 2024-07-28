@@ -47,6 +47,6 @@ Meta + V to paste
 Meta + X to cut
 Meta + V to paste
 Meta + Backspace to delete
-Shift + Click to open link
+Meta + Click to open link
 
 

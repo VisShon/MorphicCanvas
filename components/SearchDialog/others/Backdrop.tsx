@@ -15,7 +15,7 @@ function Backdrop() {
 						alt="suggestion"
 					/>
 					<p className="w-[85%] text-[1.1rem]">
-						Search with specific filters to find more ! Shift + Click for going to github.
+						Search with specific filters to find more ! Meta + Click for going to github.
 					</p>
 				</section>
 				
