@@ -27,21 +27,53 @@ export const getMembers = async(
 
 		let {data:members} = await axios.get(`https://api.github.com/orgs/${company}/members`,{
 			params:{
-				page:page
+				page:page,
+				per_page:6
 			}
 		})
 
 
-		const promises = members.map(async(member:any,i:number)=>{
+		if(
+			!(filterset?.includes("bio")||
+			filterset?.includes("email")||
+			filterset?.includes("followers")||
+			filterset?.includes("public_repos")||
+			filterset?.includes("public_gists"))||
+			!filterset
+		){
+			
+			let res = members.map((member:Member) => {
+				return {
+					id:member?.id,
+					node_id:member?.node_id,
+					login:member?.login,
+					avatar_url:member?.avatar_url,
+					html_url:member?.html_url,
+				}
+			})
 
-			const {data:user} =  await axios.get(member.url)
 
-
-			let userdata:User = {
-				id:user?.id,
-				node_id:user?.node_id,
+			return {
+				data:res,
+				error:undefined,
+				isPending:false
 			}
 
+		}
+
+
+		const promises = members.map(async(member:any,i:number)=>{
+
+			let userdata:User = {
+				id:member?.id,
+				node_id:member?.node_id,
+				login:member?.login,
+				avatar_url:member?.avatar_url,
+				html_url:member?.html_url,
+			}
+
+			const {data:user} =  await axios.get(member.url)
+	
 			for (let key of filterset){
 				if(key in user)
 					userdata[key]=user[key]
@@ -50,7 +82,9 @@ export const getMembers = async(
 			return userdata
 		})
 
+
 		const res = await Promise.all(promises)
+		console.log(res)
 
 		return {
 			data:res,
@@ -60,6 +94,7 @@ export const getMembers = async(
 		
 	}
 	catch(error:unknown){
+		console.log(error)
 		return {
 			data:undefined,
 			error,

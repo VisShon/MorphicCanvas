@@ -159,21 +159,21 @@ function SearchDialog({open=false,users}:DialogParams) {
 
 
 			<div
-				className="fixed left-8 top-8 select-none flex gap-5 bg-white p-2 px-4 w-[50%] min-w-fill rounded-xl text-[1.1rem] font-semibold text-grey-super-light cursor-pointer shadow font-nunito z-50"
+				className="fixed left-8 top-8 select-none flex gap-5 bg-white p-2 px-4 w-[40%] min-w-fill rounded-xl text-[1rem] font-semibold text-grey-super-light cursor-pointer shadow font-nunito z-50"
 			>
 
 				<Image
 					fetchPriority="high"
 					src="/morphic.svg"
 					alt="search"
-					width={100}
-					height={100}
+					width={80}
+					height={80}
 				/>
 
 				<button
 					id="CommandPallete" 
 					onClick={()=>setIsOpen(true)}
-					className="p-3 w-[90%] flex items-center gap-2 rounded-lg bg-chalk border-[1px] active:border-[2px] active:shadow-md active:bg-white border-chalk-dark hover:border-blue-main transition-all ease-in-out delay-100">
+					className="p-3 py-1 w-[90%] flex items-center gap-2 rounded-lg bg-chalk border-[1px] active:border-[2px] active:shadow-md active:bg-white border-chalk-dark hover:border-blue-main transition-all ease-in-out delay-100">
 					<Image
 					 	fetchPriority="high"
 						src="/search.svg"
@@ -190,12 +190,12 @@ function SearchDialog({open=false,users}:DialogParams) {
 
 				<button
 					onClick={()=>setIsOpen(true)}
-					className="p-1 font-bold font-space text-xl flex items-center gap-2 rounded-lg bg-chalk active:border-[1px] active:shadow-lg active:bg-white border-chalk-dark hover:border-blue-main transition-all ease-in-out delay-100">
+					className=" font-bold font-space text-xl flex items-center gap-2 rounded-lg bg-chalk active:border-[1px] active:shadow-lg active:bg-white border-chalk-dark hover:border-blue-main transition-all ease-in-out delay-100">
 
-					<p className="bg-concrete p-1 px-3 border-grey-super-light border-[1px] rounded-md text-grey-dark">
+					<p className="bg-concrete  px-3 border-grey-super-light border-[1px] rounded-md text-grey-dark">
 						{mod}
 					</p>+
-					<p className="bg-concrete p-1 px-3 border-grey-super-light border-[1px] rounded-md text-grey-dark">K</p>
+					<p className="bg-concrete  px-3 border-grey-super-light border-[1px] rounded-md text-grey-dark">K</p>
 
 				</button>
 				

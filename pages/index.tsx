@@ -16,19 +16,18 @@ export default function Home(
 	{error,dataset}:InferGetServerSidePropsType<typeof getServerSideProps>
 ) {
 
+	console.log(dataset)
 	const memoizedUsers = useMemo(()=>dataset,[dataset])
 
 	return (
 		<>
-			<main className="w-screen flex justify-center items-center h-screen p-8 overflow-clip">
+			<main className="w-screen flex justify-center items-center h-screen p-8 overflow-clip ">
 				<SearchDialog
 					open={false}
 					users={memoizedUsers}
 				/>
 
 				<FabricCanvas/>
-
-				{error && <p>Rate limit exceeded this happens becuase some assests need fecthing from user url</p>}
 				<VerticalPanel/>
 				<TextMenu/>
 			</main>

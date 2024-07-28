@@ -153,8 +153,8 @@ export const createNameCard = (
                 avatarImg
             ];
 
-            if (login) elements.push(createText(login, left + cardWidth / 2, top + 190, 16));
-            if (name) elements.push(createText(name, left + cardWidth / 2, top + 160, 24, "bold"));
+            if (login) elements.push(createText(login, left + cardWidth / 2, top + 160, 21, "bold"));
+            if (name) elements.push(createText(name, left + cardWidth / 2, top + 190, 16));
 
             if (bio) elements.push(createText(`${bio.slice(0, 40)}`, left + cardWidth / 2, top + 220, 14));
             if (email) elements.push(createText(email, left + cardWidth / 2, top + 240, 14));

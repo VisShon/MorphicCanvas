@@ -17,8 +17,8 @@ export const FilterSet:Record<PrimaryFilter,Filter>={
 		img:"/member.svg",
 		fieldset: [
 			{
-				filter: "Username",
-				value: "login"
+				filter: "Name",
+				value: "name"
 			},
 
 			{

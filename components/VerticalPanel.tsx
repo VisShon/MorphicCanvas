@@ -28,7 +28,7 @@ function VerticalPanel() {
 			
 			{
 				show&&
-				<div className="fixed right-8 top-10 p-4 select-none flex flex-col items-center gap-5 bg-white min-w-[6em] h-[92%] min-h-fill rounded-xl text-[1.1rem] font-semibold text-grey-super-light cursor-pointer shadow font-nunito group animate-modal z-10 ">
+				<div className="fixed right-8 top-10 p-2 select-none flex flex-col items-center gap-5 bg-white min-w-[4em] h-[92%] min-h-fill rounded-xl text-[0.85rem] font-semibold text-grey-super-light cursor-pointer shadow font-nunito group animate-modal z-10 ">
 					<button 
 						className="absolute -top-2 -left-2 z-20 rounded-full p-2 w-[1.8rem] h-[1.8rem] text-[0.75rem] bg-white border-2 border-slate-200 animate-modal hidden hover:shadow-md group-hover:flex items-center duration-200 trasition-all ease-in-out" 
 						onClick={()=>setShow(prev=>!prev)}
@@ -43,8 +43,8 @@ function VerticalPanel() {
 								<Image
 									key={i}
 									src={img}
-									height={100}
-									width={100}
+									height={80}
+									width={80}
 									alt="img"
 								/>
 							))
